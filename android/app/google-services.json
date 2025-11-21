@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "654635797634",
+    "project_id": "sehaty-app-8ba55",
+    "storage_bucket": "sehaty-app-8ba55.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:654635797634:android:2a28d40a7004842209f89b",
+        "android_client_info": {
+          "package_name": "com.example.sehaty_application"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfEiXpejmx6lK4zhchZPPjfClcGsKV8ao"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
