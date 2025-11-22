@@ -14,9 +14,8 @@ class CustomElevatedButton extends StatelessWidget {
             padding: EdgeInsets.symmetric(vertical: 12),
             minimumSize: Size(double.infinity,0)
         ),
-        onPressed: (){
-          onPressed;
-        },
+        onPressed: onPressed,
+
         child: text
     );
   }
