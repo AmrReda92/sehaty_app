@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sehaty_application/core/widgets/custom_elevated_button.dart';
 import 'package:sehaty_application/core/widgets/custom_text_form_field.dart';
+import 'package:sehaty_application/features/auth/presentation/sign_up/ui/sign_up_screen.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -41,7 +42,13 @@ class _SignUpScreenState extends State<SignInScreen> {
                 onPressed: (){
 
                 },
-              )
+              ),
+              InkWell(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>SignUpScreen()));
+                  },
+                  child: Text("Create an account",style: TextStyle(fontSize: 16),))
+
             ],
           ),
         ),
