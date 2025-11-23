@@ -4,6 +4,7 @@ import 'package:sehaty_application/core/widgets/custom_text_form_field.dart';
 import 'package:sehaty_application/features/auth/presentation/sign_in/ui/sign_in_screen.dart';
 import 'package:sehaty_application/features/home/presentation/ui/home_screen.dart';
 
+
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
 
