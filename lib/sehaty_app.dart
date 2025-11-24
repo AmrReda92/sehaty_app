@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sehaty_application/core/routes/app_routes.dart';
+import 'package:sehaty_application/core/routes/routes.dart';
 import 'package:sehaty_application/features/auth/presentation/cubits/sign_up_cubit/sign_up_cubit.dart';
 import 'package:sehaty_application/features/auth/presentation/sign_up/ui/sign_up_screen.dart';
 
@@ -29,11 +31,9 @@ class _SehatyAppState extends State<SehatyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      onGenerateRoute: AppRoutes.onGenerateRoute,
+      initialRoute: Routes.signUpScreen,
       debugShowCheckedModeBanner: false,
-      home: BlocProvider(
-        create: (context) => SignUpCubit(),
-        child: SignUpScreen(),
-      ),
     );
   }
 }
