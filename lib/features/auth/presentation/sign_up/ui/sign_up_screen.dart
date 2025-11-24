@@ -35,6 +35,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<SignUpCubit, SignUpState>(
+    buildWhen: (previous,current)=>(current is !SignUpError),
   listener: (context, state) {
     if(state is SignUpLoading){
      CustomshowLoadingDialog(context);
