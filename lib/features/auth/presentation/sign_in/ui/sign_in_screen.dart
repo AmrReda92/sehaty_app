@@ -109,7 +109,7 @@ class _SignUpScreenState extends State<SignInScreen> {
                   ),
                   InkWell(
                       onTap: (){
-                        Navigator.pushNamed(context, Routes.signUpScreen);
+                        Navigator.pushReplacementNamed(context, Routes.signUpScreen);
                       },
                       child: Text("Create an account",style: TextStyle(fontSize: 16),))
               
