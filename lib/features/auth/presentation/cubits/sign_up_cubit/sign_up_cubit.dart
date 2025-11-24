@@ -15,7 +15,6 @@ class SignUpCubit extends Cubit<SignUpState> {
       //  firebase  ده المتغيّر اللي بيرجع من credential
       //    بعد ما تعمل السطر ده
       final credential= await AuthRepo.createUserWithEmailAndPassword(model: model);
-
       emit(SignUpSuccess(uid: credential.user!.uid));
     }
     catch(e){

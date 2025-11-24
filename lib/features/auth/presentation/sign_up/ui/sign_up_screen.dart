@@ -48,7 +48,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       Navigator.pop(context);// close loading
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text("Please fill all fields correctly"),
+          content: Text(state.error),
           backgroundColor: Colors.red,
         ),
       );
@@ -109,13 +109,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     text: Text("Sign Up",style: TextStyle(color: Colors.white,fontSize: 20),),
                     onPressed: (){
                      if(formKey.currentState!.validate()){
-                      SignUpCubit.get(context).signUp(
-                          model: SignUpModel(
-                              email: emailController.text,
-                              name: nameController.text,
-                              password: passwordController.text
-                          )
-                      );
+                       context.read<SignUpCubit>().createUserWithEmailAndPassword(
+                           model: SignUpModel(email: emailController.text, name: nameController.text, password: passwordController.text)
+                       );
                      }else{
                        ScaffoldMessenger.of(context).showSnackBar(
                          SnackBar(
