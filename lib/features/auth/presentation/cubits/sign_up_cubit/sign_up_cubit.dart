@@ -9,19 +9,33 @@ part 'sign_up_state.dart';
 class SignUpCubit extends Cubit<SignUpState> {
   SignUpCubit() : super(SignUpInitial());
 
-  static SignUpCubit get(BuildContext context) => BlocProvider.of(context);
-
-  AuthRepo _authRepo = AuthRepo();
-  signUp({required SignUpModel model})async{
+  createUserWithEmailAndPassword({required SignUpModel model})async{
     emit(SignUpLoading());
-    // requset success بتشتغل لما ال then
-  await  _authRepo.signUp(model: model).then((value){
-    emit(SignUpSuccess(uid: value.user!.uid));
-  }).catchError((error){
-   emit(SignUpError(error));
-   debugPrint (error.toString());
-  }) ;
+    try{
+      //  firebase  ده المتغيّر اللي بيرجع من credential
+      //    بعد ما تعمل السطر ده
+      final credential= await AuthRepo.createUserWithEmailAndPassword(model: model);
+
+      emit(SignUpSuccess(uid: credential.user!.uid));
+    }
+    catch(e){
+      emit(SignUpError(e.toString()));
+      
+    }
   }
 
-
 }
+
+
+/*
+credential.user يعني إيه
+ده ال  user
+ال اتسجل في فايرباز
+جواه معلومات المستخدم زي
+
+uid
+email
+displayName
+phoneNumber
+photoURL
+ */
