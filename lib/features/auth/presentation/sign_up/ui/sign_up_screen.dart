@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sehaty_application/core/routes/routes.dart';
 import 'package:sehaty_application/core/widgets/custom_elevated_button.dart';
 import 'package:sehaty_application/core/widgets/custom_show_dialogue.dart';
 import 'package:sehaty_application/core/widgets/custom_text_form_field.dart';
@@ -40,8 +41,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
 
     if(state is SignUpSuccess){
-      Navigator.pop(context); // close loading
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
+      Navigator.pop(context);// close loading
+      Navigator.pushReplacementNamed(context, Routes.homeScreen);
     }
 
     if(state is SignUpError){
@@ -52,6 +53,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           backgroundColor: Colors.red,
         ),
       );
+
     }
   },
   builder: (context, state) {
@@ -103,7 +105,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     },
                   ),
                   SizedBox(height: 8,),
-                 CustomElevatedButton(
+                  CustomElevatedButton(
                     text: Text("Sign Up",style: TextStyle(color: Colors.white,fontSize: 20),),
                     onPressed: (){
                      if(formKey.currentState!.validate()){
@@ -123,7 +125,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                   InkWell(
                       onTap: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>SignInScreen()));
+                        Navigator.pushNamed(context, Routes.signInpScreen);
                       },
                       child: Text("I Already have an account",style: TextStyle(fontSize: 16),))
                 ],

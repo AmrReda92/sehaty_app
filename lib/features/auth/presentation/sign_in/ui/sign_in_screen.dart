@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sehaty_application/core/routes/routes.dart';
 import 'package:sehaty_application/core/widgets/custom_elevated_button.dart';
+import 'package:sehaty_application/core/widgets/custom_show_dialogue.dart';
 import 'package:sehaty_application/core/widgets/custom_text_form_field.dart';
+import 'package:sehaty_application/features/auth/data/models/sign_in_model.dart';
+import 'package:sehaty_application/features/auth/presentation/cubits/sign_in_cubit/sign_in_cubit.dart';
 import 'package:sehaty_application/features/auth/presentation/sign_up/ui/sign_up_screen.dart';
 import 'package:sehaty_application/features/home/presentation/ui/home_screen.dart';
 
@@ -26,6 +31,26 @@ class _SignUpScreenState extends State<SignInScreen> {
 
   @override
   Widget build(BuildContext context) {
+    return BlocConsumer<SignInCubit, SignInState>(
+  listener: (context, state) {
+
+    if(state is SignInLoading){
+      CustomshowLoadingDialog(context);
+
+    }else if(state is SignInSuccess){
+      Navigator.pop(context);
+      Navigator.pushReplacementNamed(context, Routes.homeScreen);
+
+    }else if(state is SignInError){
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(state.error),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  },
+  builder: (context, state) {
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -69,7 +94,9 @@ class _SignUpScreenState extends State<SignInScreen> {
                     text: Text("Sign in",style: TextStyle(color: Colors.white,fontSize: 20),),
                     onPressed: (){
                       if(formKey.currentState!.validate()){
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
+                        context.read<SignInCubit>().signInWithEmailAndPassword(
+                            model: SignInModel(email: emailController.text, password: passwordController.text)
+                        );
                       }else{
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
@@ -82,7 +109,7 @@ class _SignUpScreenState extends State<SignInScreen> {
                   ),
                   InkWell(
                       onTap: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>SignUpScreen()));
+                        Navigator.pushNamed(context, Routes.signUpScreen);
                       },
                       child: Text("Create an account",style: TextStyle(fontSize: 16),))
               
@@ -93,5 +120,7 @@ class _SignUpScreenState extends State<SignInScreen> {
         ),
       ),
     );
+  },
+);
   }
 }

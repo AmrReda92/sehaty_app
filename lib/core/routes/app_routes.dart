@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sehaty_application/core/routes/routes.dart';
+import 'package:sehaty_application/features/auth/presentation/cubits/sign_in_cubit/sign_in_cubit.dart';
 import 'package:sehaty_application/features/auth/presentation/cubits/sign_up_cubit/sign_up_cubit.dart';
 import 'package:sehaty_application/features/auth/presentation/sign_in/ui/sign_in_screen.dart';
 import 'package:sehaty_application/features/auth/presentation/sign_up/ui/sign_up_screen.dart';
+import 'package:sehaty_application/features/home/presentation/ui/home_screen.dart';
 
 class AppRoutes {
   static Route<dynamic>? onGenerateRoute(RouteSettings setting) {
@@ -16,7 +18,14 @@ class AppRoutes {
             ));
 
       case Routes.signInpScreen :
-        return MaterialPageRoute(builder: (_) => SignInScreen());
+        return MaterialPageRoute(builder: (_) =>
+            BlocProvider(
+              create: (context) => SignInCubit(),
+              child: SignInScreen(),
+            ));
+
+      case Routes.homeScreen :
+        return MaterialPageRoute(builder: (_) => HomeScreen());
     }
     return null;
   }
