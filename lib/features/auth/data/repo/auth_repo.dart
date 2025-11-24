@@ -1,5 +1,6 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:sehaty_application/features/auth/data/models/sign_in_model.dart';
 import 'package:sehaty_application/features/auth/data/models/sign_up_model.dart';
 
 class AuthRepo {
@@ -27,6 +28,28 @@ class AuthRepo {
       throw Exception("Unknown error: $e");
     }
   }
+
+  static Future<UserCredential> signInWithEmailAndPassword({required SignInModel model})async{
+    try {
+      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: model.email,
+          password: model.password
+      );
+      return credential;
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        throw Exception('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        throw Exception('Wrong password provided for that user.');
+      }else{
+        throw Exception('Auth error: ${e.message}');
+      }
+     }catch(e){
+      throw Exception("Unknown error: $e");
+
+    }
+    }
+
 
 }
 
