@@ -9,14 +9,16 @@ part 'sign_up_state.dart';
 class SignUpCubit extends Cubit<SignUpState> {
   SignUpCubit() : super(SignUpInitial());
 
- final AuthRepo _authRepo = AuthRepo();
+  static SignUpCubit get(BuildContext context) => BlocProvider.of(context);
+
+  AuthRepo _authRepo = AuthRepo();
   signUp({required SignUpModel model})async{
     emit(SignUpLoading());
     // requset success بتشتغل لما ال then
   await  _authRepo.signUp(model: model).then((value){
     emit(SignUpSuccess(uid: value.user!.uid));
   }).catchError((error){
-   emit(SignUpError());
+   emit(SignUpError(error));
    debugPrint (error.toString());
   }) ;
   }

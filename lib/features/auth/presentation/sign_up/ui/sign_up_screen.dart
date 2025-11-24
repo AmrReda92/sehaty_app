@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sehaty_application/core/widgets/custom_elevated_button.dart';
+import 'package:sehaty_application/core/widgets/custom_show_dialogue.dart';
 import 'package:sehaty_application/core/widgets/custom_text_form_field.dart';
+import 'package:sehaty_application/features/auth/data/models/sign_up_model.dart';
+import 'package:sehaty_application/features/auth/presentation/cubits/sign_up_cubit/sign_up_cubit.dart';
 import 'package:sehaty_application/features/auth/presentation/sign_in/ui/sign_in_screen.dart';
 import 'package:sehaty_application/features/home/presentation/ui/home_screen.dart';
 
@@ -29,6 +33,30 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
+    return BlocConsumer<SignUpCubit, SignUpState>(
+  listener: (context, state) {
+    if(state is SignUpLoading){
+     CustomshowLoadingDialog(context);
+    }
+
+    if(state is SignUpSuccess){
+      Navigator.pop(context); // close loading
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
+    }
+
+    if(state is SignUpError){
+      Navigator.pop(context);// close loading
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Please fill all fields correctly"),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+
+
+  },
+  builder: (context, state) {
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -42,7 +70,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   SizedBox(height: 16,),
                   Image.asset("assets/images/logo.png",width: 240,height: 240,),
                   Text("Sign Up",style: TextStyle(fontSize: 30,color: Color(0xff0B8FAC)),),
-                  CustomTextFormField(hintText: "Name", controller: nameController,),
+                  CustomTextFormField(
+                    hintText: "Name",
+                    controller: nameController,
+                    validator: (value){
+                      if(value == null || value.isEmpty){
+                        return "Name is required";
+                      }
+                      return null;
+                    },
+                  ),
                   CustomTextFormField(
                     hintText: "Email",
                     controller: emailController ,
@@ -68,11 +105,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     },
                   ),
                   SizedBox(height: 8,),
-                  CustomElevatedButton(
+                 CustomElevatedButton(
                     text: Text("Sign Up",style: TextStyle(color: Colors.white,fontSize: 20),),
                     onPressed: (){
                      if(formKey.currentState!.validate()){
-                       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
+                      SignUpCubit.get(context).signUp(
+                          model: SignUpModel(
+                              email: emailController.text,
+                              name: nameController.text,
+                              password: passwordController.text
+                          )
+                      );
                      }else{
                        ScaffoldMessenger.of(context).showSnackBar(
                          SnackBar(
@@ -83,6 +126,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                      }
                     },
                   ),
+
                   InkWell(
                       onTap: (){
                         Navigator.push(context, MaterialPageRoute(builder: (context)=>SignInScreen()));
@@ -95,5 +139,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ),
       ),
     );
+  },
+);
   }
 }
