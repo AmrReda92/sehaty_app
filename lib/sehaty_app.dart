@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:sehaty_application/core/routes/app_routes.dart';
 import 'package:sehaty_application/core/routes/routes.dart';
-import 'package:sehaty_application/features/auth/presentation/cubits/sign_up_cubit/sign_up_cubit.dart';
-import 'package:sehaty_application/features/auth/presentation/sign_up/ui/sign_up_screen.dart';
+
+import 'generated/l10n.dart';
 
 class SehatyApp extends StatefulWidget {
   const SehatyApp({super.key});
@@ -31,6 +31,14 @@ class _SehatyAppState extends State<SehatyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      locale: Locale("en"),
+      localizationsDelegates: const [
+        S.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: S.delegate.supportedLocales,
       onGenerateRoute: AppRoutes.onGenerateRoute,
       initialRoute: Routes.signUpScreen,
       debugShowCheckedModeBanner: false,

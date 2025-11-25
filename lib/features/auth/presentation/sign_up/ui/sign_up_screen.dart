@@ -6,8 +6,8 @@ import 'package:sehaty_application/core/widgets/custom_show_dialogue.dart';
 import 'package:sehaty_application/core/widgets/custom_text_form_field.dart';
 import 'package:sehaty_application/features/auth/data/models/sign_up_model.dart';
 import 'package:sehaty_application/features/auth/presentation/cubits/sign_up_cubit/sign_up_cubit.dart';
-import 'package:sehaty_application/features/auth/presentation/sign_in/ui/sign_in_screen.dart';
-import 'package:sehaty_application/features/home/presentation/ui/home_screen.dart';
+
+import '../../../../../generated/l10n.dart';
 
 
 class SignUpScreen extends StatefulWidget {
@@ -70,7 +70,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 children: [
                   SizedBox(height: 16,),
                   Image.asset("assets/images/logo.png",width: 240,height: 240,),
-                  Text("Sign Up",style: TextStyle(fontSize: 30,color: Color(0xff0B8FAC)),),
+                  Text(S.of(context).textSignUp,style: TextStyle(fontSize: 30,color: Color(0xff0B8FAC)),),
                   CustomTextFormField(
                     hintText: "Name",
                     controller: nameController,

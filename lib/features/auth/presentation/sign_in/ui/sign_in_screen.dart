@@ -6,8 +6,6 @@ import 'package:sehaty_application/core/widgets/custom_show_dialogue.dart';
 import 'package:sehaty_application/core/widgets/custom_text_form_field.dart';
 import 'package:sehaty_application/features/auth/data/models/sign_in_model.dart';
 import 'package:sehaty_application/features/auth/presentation/cubits/sign_in_cubit/sign_in_cubit.dart';
-import 'package:sehaty_application/features/auth/presentation/sign_up/ui/sign_up_screen.dart';
-import 'package:sehaty_application/features/home/presentation/ui/home_screen.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
