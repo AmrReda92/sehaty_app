@@ -1,5 +1,7 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:sehaty_application/features/auth/data/models/sign_in_model.dart';
 import 'package:sehaty_application/features/auth/data/models/sign_up_model.dart';
 
@@ -12,7 +14,9 @@ class AuthRepo {
         email: model.email,
         password: model.password,
       );
-      await credential.user!.updateDisplayName(model.name) ;
+
+      await FirebaseFirestore.instance.
+      collection("users").doc(credential.user!.uid).set(model.toJson());
 
       return credential;
     } on FirebaseAuthException catch (e) {

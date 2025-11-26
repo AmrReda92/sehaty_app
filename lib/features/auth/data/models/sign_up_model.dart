@@ -8,4 +8,13 @@ class SignUpModel {
   final String password ;
 
   SignUpModel({required this.email,required this. name ,required this.password});
+
+  Map <String,dynamic> toJson (){
+    return
+      {
+        "name": name,
+        "email" :email,
+      };
+  }
+
 }
