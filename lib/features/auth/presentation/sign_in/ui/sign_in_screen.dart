@@ -5,7 +5,9 @@ import 'package:sehaty_application/core/widgets/custom_elevated_button.dart';
 import 'package:sehaty_application/core/widgets/custom_show_dialogue.dart';
 import 'package:sehaty_application/core/widgets/custom_text_form_field.dart';
 import 'package:sehaty_application/features/auth/data/models/sign_in_model.dart';
-import 'package:sehaty_application/features/auth/presentation/cubits/sign_in_cubit/sign_in_cubit.dart';
+import 'package:sehaty_application/features/auth/data/models/user_model.dart';
+
+import '../sign_in_cubit.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -38,12 +40,13 @@ class _SignUpScreenState extends State<SignInScreen> {
 
     }else if(state is SignInSuccess){
       Navigator.pop(context);
-      Navigator.pushReplacementNamed(context, Routes.homeScreen);
+      Navigator.pushNamedAndRemoveUntil(context, Routes.homeScreen,arguments: state.user, (e)=>false);
 
     }else if(state is SignInError){
+      Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(state.error),
+          content: Text(state.message),
           backgroundColor: Colors.red,
         ),
       );
@@ -94,7 +97,7 @@ class _SignUpScreenState extends State<SignInScreen> {
                     onPressed: (){
                       if(formKey.currentState!.validate()){
                         context.read<SignInCubit>().signInWithEmailAndPassword(
-                            model: SignInModel(email: emailController.text, password: passwordController.text)
+                            userModel: UserModel(email: emailController.text, password: passwordController.text,)
                         );
                       }else{
                         ScaffoldMessenger.of(context).showSnackBar(

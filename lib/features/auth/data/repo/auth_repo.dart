@@ -1,24 +1,30 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:sehaty_application/features/auth/data/models/sign_in_model.dart';
-import 'package:sehaty_application/features/auth/data/models/sign_up_model.dart';
+import 'package:sehaty_application/features/auth/data/models/user_model.dart';
 
 class AuthRepo {
 
-  static Future<UserCredential> createUserWithEmailAndPassword({required SignUpModel model}) async{
+  static createUserWithEmailAndPassword({required UserModel model}) async{
 
     try {
       final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: model.email,
-        password: model.password,
+        password: model.password.toString(),
       );
 
-      await FirebaseFirestore.instance.
-      collection("users").doc(credential.user!.uid).set(model.toJson());
+      final uid = credential.user!.uid ;
+      final UserModel userWithUid = UserModel(
+          email: model.email,
+          name: model.name,
+          uid: uid ,
+      );
 
-      return credential;
+      // firebase حفظ البيانات الإضافية في
+      await FirebaseFirestore.instance.
+      collection("users").doc(credential.user!.uid).set(userWithUid.toJson());
+
+      return userWithUid;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         throw Exception('The password provided is too weak.');
@@ -33,13 +39,23 @@ class AuthRepo {
     }
   }
 
-  static Future<UserCredential> signInWithEmailAndPassword({required SignInModel model})async{
+  static signInWithEmailAndPassword({required UserModel model})async{
     try {
       final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: model.email,
-          password: model.password
+          password: model.password.toString(),
       );
-      return credential;
+
+      final uid = credential.user!.uid ;
+      final userDoc = await FirebaseFirestore.instance.collection("users").
+      doc(uid).get();
+      if(userDoc.exists){
+        final Map<String,dynamic> userData = userDoc.data()!;
+        return UserModel.fromJson(userData);
+      }else{
+        throw ("user is not in firebase");
+      }
+
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         throw Exception('No user found for that email.');

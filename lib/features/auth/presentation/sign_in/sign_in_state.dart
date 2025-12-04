@@ -7,11 +7,10 @@ final class SignInInitial extends SignInState {}
 
 final class SignInLoading extends SignInState {}
 final class SignInSuccess extends SignInState {
-  final String uid ;
-  SignInSuccess({required this.uid});
+  final UserModel user ;
+  SignInSuccess(this.user);
 }
 final class SignInError extends SignInState {
-  final String error;
-  SignInError(this.error);
-
+  final String message;
+  SignInError(this.message);
 }

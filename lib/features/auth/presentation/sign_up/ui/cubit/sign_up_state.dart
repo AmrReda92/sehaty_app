@@ -6,11 +6,11 @@ sealed class SignUpState {}
 final class SignUpInitial extends SignUpState {}
 
 final class SignUpLoading extends SignUpState {}
-final class SignUpError extends SignUpState {
-  final String error;
-  SignUpError(this.error);
-}
 final class SignUpSuccess extends SignUpState {
-  final String uid;
-  SignUpSuccess({required this.uid});
+  final UserModel user ;
+  SignUpSuccess(this.user);
+}
+final class SignUpError extends SignUpState {
+  final String message ;
+  SignUpError(this.message);
 }
